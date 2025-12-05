@@ -4,7 +4,7 @@ require_once('conf/connexion.php');
 if (isset($_GET['recherche'])) {
 
     $recherche = $_GET['recherche'];
-    $rep = $recherche . '%';
+    $rep = "%$recherche%";
 
     $sql = "SELECT livre.nolivre, livre.titre, auteur.nom
             FROM auteur
@@ -15,7 +15,7 @@ if (isset($_GET['recherche'])) {
     $stmt->bindParam(':rep', $rep, PDO::PARAM_STR);
     $stmt->execute();
 
-    echo "<h2>Résultats pour l'auteur : " .  $recherche . "</h2>";
+    echo "<h2>Résultats pour l'auteur : " .  htmlspecialchars($recherche) . "</h2>";
     
 
     if ($stmt->rowCount() === 0) {
@@ -24,11 +24,14 @@ if (isset($_GET['recherche'])) {
     }
 
     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+        
         echo '<p>
-                <a href="livre.php?livre=' . $row->nolivre. '">' 
+                <a href="livre.php?livre=' . htmlspecialchars($row->nolivre). '">' 
                 . $row->titre . 
                 '</a>
               </p>';
     }
 }
+
+ include "detail.php ";
 ?>
