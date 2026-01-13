@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start(); 
+ ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,7 +16,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-9 bg-warning">
-            <?php include "entete.html"; ?>
+        <?php
+        if (isset($_SESSION['user']) && $_SESSION['user']['profil'] === 'admin') {
+         include 'entete.php'; 
+            } else {
+            include 'entete.html';
+            }
+?>
+           
         </div>
         <div class="col-3 bg-warning text-center">
             <img src="./images/hero.jpg" class="img-fluid" alt="Hero">
@@ -28,6 +36,8 @@
             elseif (isset($_GET["nolivre"])) {
                 include "detail.php";
             }
+            
+            
             else {
                 require_once 'conf/connexion.php';
                 $stmt = $connexion->prepare("SELECT photo FROM livre ORDER BY dateajout DESC LIMIT 3");

@@ -17,11 +17,27 @@ $livre = $stmt->fetch(PDO::FETCH_OBJ);
 <img src="./images/<?php echo $livre->photo?>" class="d-block mx-auto"   style="width:25%">
 <center><h2>Détails du livre</h2></center>
 <?php
-echo"  <p> <h3> <strong>Description : </strong> ". htmlentities(utf8_encode($livre->detail))." </h3></p>"; 
+    echo"  <p> <h4> <strong>Description : </strong> ". htmlentities(utf8_encode($livre->detail))." </h4></p>"; 
 
 
-
-
+    if (isset($_SESSION['user'])) {
+        ?>
+            <div class="text-center">
+                <a href="panier.php?nolivre=<?= $livreID; ?>" 
+                   class="btn btn-success">
+                    Emprunter
+                </a>
+            </div>
+        <?php
+        } else {
+        ?>
+            <div class="text-center">
+                <h5 class="text-danger">
+                    Pour pouvoir réserver, vous devez posséder un compte et vous identifier.
+                </h5>
+            </div>
+        <?php
+        }
 ?>
 
 

@@ -4,8 +4,9 @@ require_once('conf/connexion.php');
 if (isset($_GET['deconnecter'])) {
     session_destroy();
     $_SESSION = [];
-    exit;
+   
 }
+
 $erreur = '';
 if (isset($_POST['btnSeConnecter']) && !isset($_SESSION['utilisateur'])) {
     $mel = trim($_POST['mel']);
@@ -25,11 +26,17 @@ if (isset($_POST['btnSeConnecter']) && !isset($_SESSION['utilisateur'])) {
     }
 }
 ?>
-<div class="container mt-4">
+<div>
 <?php if (isset($_SESSION['utilisateur'])): 
-    $user = $_SESSION['utilisateur'];
+ $user = $_SESSION['utilisateur'];
+    $_SESSION['user'] = [
+        'mel'    => $user['mel'],
+        'nom'    => $user['nom'],
+        'prenom' => $user['prenom'],
+        'profil' => $user['profil'] 
+    ]; 
 ?>
-    <div class="card p-3">
+    <div class="card p-3 bg-success" >
         <h5>
             Bonjour <?= htmlentities(utf8_encode($user['prenom'].' '.$user['nom'])) ?> !
         </h5>
@@ -42,7 +49,7 @@ if (isset($_POST['btnSeConnecter']) && !isset($_SESSION['utilisateur'])) {
             Se déconnecter
         </a>
     </div>
-<?php else: ?>
+<?php else: { ?>
     <form method="post">
         <div class="mb-3">
             <label>identifiant :</label>
@@ -63,4 +70,5 @@ if (isset($_POST['btnSeConnecter']) && !isset($_SESSION['utilisateur'])) {
             Se connecter
         </button>
     </form>
+    <?php } ?> 
 <?php endif; ?>
